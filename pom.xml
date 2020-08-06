@@ -28,7 +28,7 @@
 		<developerConnection>scm:git:ssh://git@github.com/jenkinsci/autocomplete-parameter.git</developerConnection>
 		<url>https://github.com/jenkinsci/autocomplete-parameter/</url>
 	  <tag>HEAD</tag>
-  </scm>
+	</scm>
 
 
 	<licenses>
@@ -105,38 +105,45 @@
 				<directory>target/generated-resources/adjuncts</directory>
 			</resource>
 		</resources>
-		<plugins>
-			<plugin>
-				<!-- https://github.com/Ardesco/selenium-standalone-server-plugin/ -->
-				<groupId>com.lazerycode.selenium</groupId>
-				<artifactId>driver-binary-downloader-maven-plugin</artifactId>
-				<version>1.0.14</version>
-				<configuration>
-					<rootStandaloneServerDirectory>${project.basedir}/drivers</rootStandaloneServerDirectory>
-					<downloadedZipFileDirectory>${project.basedir}/drivers</downloadedZipFileDirectory>
-					<onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
-					<customRepositoryMap>${project.basedir}/src/test/resources/CustomRepoMap.xml</customRepositoryMap>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>selenium</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>selenium</id>
+			<build>
+				<plugins>
+					<plugin>
+						<!-- https://github.com/Ardesco/selenium-standalone-server-plugin/ -->
+						<groupId>com.lazerycode.selenium</groupId>
+						<artifactId>driver-binary-downloader-maven-plugin</artifactId>
+						<version>1.0.14</version>
+						<configuration>
+							<rootStandaloneServerDirectory>${project.basedir}/drivers</rootStandaloneServerDirectory>
+							<downloadedZipFileDirectory>${project.basedir}/drivers</downloadedZipFileDirectory>
+							<onlyGetDriversForHostOperatingSystem>true</onlyGetDriversForHostOperatingSystem>
+							<customRepositoryMap>${project.basedir}/src/test/resources/CustomRepoMap.xml</customRepositoryMap>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>selenium</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<executions>
+							<execution>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
